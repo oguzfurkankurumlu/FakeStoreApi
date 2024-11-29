@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            /* Ürünleri sola hizalar */
+            gap: 15px;
+            /* Ürünler arasına boşluk ekler */
+        }
+
+        div {
+            width: 300px;
+            height: auto;
+            display: block;
+            flex-direction: row;
+            /* Bu satır, içerikleri dikey sıralar */
+            justify-content: center;
+            text-align: center;
+            border: 2px solid black;
+            padding: 10px;
+        }
+        input[type="text"]{
+            width: 90%;
+            height: 5px;
+            padding: 5px;
+        }
+
+        input[type="number"]{
+            width: 90%;
+            height: 5px;
+            padding: 5px;
+        }
+
+        img {
+            width: 80%;
+            height: 200px;
+            display: block;
+            position: relative;
+            /* Resmi blok seviyesinde eleman yapar */
+            
+        }
+
+        input {
+            width: 20px;
+            margin-top: 20px;
+            /* Giriş kutuları arasına boşluk ekler */
+            display: block;
+            flex-direction: column;
+            /* Alt alta sıralar */
+        }
+    </style>
+
+
+    <script>
+        //dom yuklenmeden once, elementler yuklenmesı ıcın
+
+        window.onload = function () {
+
+
+
+            let container = document.getElementsByClassName("container")[0];// [0] İlk container'ı seç
+
+            //Amaç: HTML'deki class="container" olan öğeleri seçmek.
+
+
+            fetch('https://fakestoreapi.com/products')
+                .then(res => res.json())
+                .then(json => {
+
+                    json.forEach(function (key, index) {
+                        //// Her ürün için işlemler yapılacak key index ile
+
+                        // Her ürün için bir kapsayıcı oluştur
+                        let divElement = document.createElement("div");
+
+                        // Resim öğesi
+                        let imgElement = document.createElement("img");
+                        imgElement.src = key.image; // Gelen resmi kontrole verelim, Ürün resmi
+                        imgElement.alt = key.title; // Alternatif metin
+
+                        // Başlık için metin kutusu
+                        let inputElement = document.createElement("input");
+                        inputElement.type = "text";
+                        inputElement.value = key.title; // Ürün başlığı
+                        inputElement.readOnly = true; // Kullanıcı değiştiremesin
+
+                        // Fiyat için sayı kutusu
+                        let numberinputElement = document.createElement("input");
+                        numberinputElement.type = "number";
+                        numberinputElement.value = key.price; // Ürün fiyatı
+                        numberinputElement.readOnly = true; // Kullanıcı değiştiremesin
+
+
+                        inputElement.type = "text";
+                        numberinputElement.type = "number";
+                        /*
+                        Bu bölümde JavaScript ile dinamik olarak HTML öğeleri oluşturuluyor:
+                        divElement: Her ürün için bir kapsayıcı <div>.
+                        imgElement: Ürün resmi için bir <img> etiketi.
+                        inputElement: Ürün başlığını göstermek için bir <input> etiketi (metin kutusu).
+                        numberinputElement: Muhtemelen fiyat gibi bir sayı göstermek için bir başka <input>.
+                        Amaç, bu öğeleri API'den alınan ürünlere göre doldurmak ve container içine eklemek.
+                        */
+
+                        divElement.appendChild(imgElement);
+                        divElement.appendChild(inputElement);
+                        divElement.appendChild(numberinputElement);
+
+                        /*
+                        divElement: Ürünle ilgili tüm öğelerin yer alacağı bir kapsayıcıdır.
+                        appendChild(imgElement): Ürün resmini temsil eden imgElement öğesi, divElement içine eklenir.
+                        appendChild(inputElement): Ürün başlığını gösteren metin kutusu, divElement içine eklenir.
+                        appendChild(numberinputElement): Ürün fiyatını gösteren sayı kutusu, divElement içine eklenir.
+                        
+                        */
+
+                        //ELEMANLAR DIVIN ICERISINE EKLENDI. DIV DE CONTAINERIN ICINE EKLENSIN
+                        container.appendChild(divElement);
+
+
+
+                    });
+
+
+                    //verilerin geldiğini görelim
+                    //debugger;
+                    //daha hıc hıcbır sey yazmdık f5 atınca chromda json ustune gleınce tum verıler gozuktu 
+
+
+
+                }
+
+
+
+
+                )
+
+
+        }
+
+
+    </script>
+
+</head>
+
+<body>
+    <div class="container"></div>
+
+
+
+
+
+
+</body>
+
+</html>
